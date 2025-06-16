@@ -25,6 +25,17 @@ type Game struct {
 	Result string `json:"result"`
 }
 
+func GetGameMap(g Game) map[string]string {
+	returnMap := make(map[string]string)
+	returnMap["whiteplayer"] = g.Whiteplayer
+	returnMap["blackplayer"] = g.Blackplayer
+	returnMap["winner"] = g.Winner
+	returnMap["opening"] = g.Opening
+	returnMap["gamemoves"] = g.Gamemoves
+	returnMap["result"] = g.Result
+	return returnMap
+}
+
 func CreateClient() (*resty.Client, error) {
 	if client != nil {
 		return client, nil
@@ -81,6 +92,7 @@ func GetGamesByPlayer(username string) ([]Game, error) {
 	response, err := client.R(). 
 		SetQueryParams(map[string]string{
 			"or": fmt.Sprintf("(whiteplayer.eq.%s,blackplayer.eq.%s)", username, username),
+			"limit": "10",
 		}).
 		SetResult(&result).
 		Get(gameExtension)

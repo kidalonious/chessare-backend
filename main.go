@@ -11,6 +11,8 @@ import (
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/hello", HelloHandler)
+	mux.HandleFunc("/search", SearchHandler)
+	mux.HandleFunc("/bar", BarHandler)
 
 	handler := cors.Default().Handler(mux)
 

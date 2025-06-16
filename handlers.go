@@ -33,3 +33,21 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	response := map[string][]map[string]string{inputQuery: gamesAsMap}  // this needs to be the map of the username to the string map of the games
 	json.NewEncoder(w).Encode(response)
 }
+
+func BarHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	input := r.URL.Query().Get("q")
+	users, err := GetUser(input)
+	if err != nil {
+		fmt.Println("it bwoke :(")
+		return
+	}
+	var usernames []string
+	for _, user := range users {
+		usernames = append(usernames, user.Username)
+	}
+	response := map[string][]string{"users": usernames}
+	json.NewEncoder(w).Encode(response)
+}

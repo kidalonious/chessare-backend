@@ -57,7 +57,7 @@ func CreateClient() (*resty.Client, error) {
 	return client, nil
 }
 
-func GetUser(username string) (*User, error) {
+func GetUser(username string) ([]User, error) {
 	client, err := CreateClient()
 	if err != nil {
 		return nil, fmt.Errorf("error creating client: %w", err)
@@ -80,7 +80,7 @@ func GetUser(username string) (*User, error) {
 		return nil, fmt.Errorf("no user found with username: %s", username)
 	}
 
-	return &result[0], nil
+	return result, nil
 }
 
 func GetGamesByPlayer(username string) ([]Game, error) {
